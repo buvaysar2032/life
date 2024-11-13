@@ -9,6 +9,7 @@ use common\models\Appeal;
 use common\models\History;
 use common\models\News;
 use common\models\Partner;
+use common\models\Questionary;
 use OpenApi\Attributes\Get;
 use OpenApi\Attributes\Items;
 use OpenApi\Attributes\Post;
@@ -22,7 +23,7 @@ class DataController extends AppController
 {
     public function behaviors(): array
     {
-        return ArrayHelper::merge(parent::behaviors(), ['auth' => ['except' => ['news', 'history', 'partner', 'appeal']]]);
+        return ArrayHelper::merge(parent::behaviors(), ['auth' => ['except' => ['news', 'history', 'partner', 'appeal', 'questionary']]]);
     }
 
     /**
@@ -142,6 +143,48 @@ class DataController extends AppController
 
         if (!$appeal->save()) {
             throw new ModelSaveException($appeal);
+        }
+
+        return $this->returnSuccess(['message' => 'Форма отправлено успешно.']);
+    }
+
+    /**
+     * @throws ModelSaveException
+     * @throws Exception
+     */
+    #[Post(
+        path: '/data/questionary',
+        operationId: 'questionary-create',
+        description: 'Форма "Анкета"',
+        summary: 'Форма "Анкета"',
+        tags: ['data']
+    )]
+    #[RequestFormData(properties: [
+        new Property(property: 'full_name', type: 'string'),
+        new Property(property: 'age', type: 'int'),
+        new Property(property: 'city', type: 'string'),
+        new Property(property: 'status', description: 'Передавай 0 - Официально на свободе, 10 - Условный срок', type: 'int'),
+        new Property(property: 'work', type: 'bool'),
+    ])]
+    #[JsonSuccess(content: [
+        new Property(property: 'message', type: 'string', example: 'Форма отправлено успешно.'),
+    ])]
+    public function actionQuestionary(): array
+    {
+        $request = Yii::$app->request->post();
+
+        if (empty($request['full_name']) || empty($request['age']) || empty($request['city']) || !isset($request['status']) || !isset($request['work'])) {
+            return $this->returnError('Все поля обязательны для заполнения.');
+        }
+        $questionary = new Questionary();
+        $questionary->full_name = $request['full_name'];
+        $questionary->age = $request['age'];
+        $questionary->city = $request['city'];
+        $questionary->status = $request['status'];
+        $questionary->work = in_array($request['work'], ['false', '0', 0, null, '']) ? 0  : 1;
+
+        if (!$questionary->save()) {
+            throw new ModelSaveException($questionary);
         }
 
         return $this->returnSuccess(['message' => 'Форма отправлено успешно.']);
