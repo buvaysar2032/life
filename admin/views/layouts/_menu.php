@@ -5,7 +5,13 @@ use admin\models\UserAdminSearch;
 use admin\modules\modelExportImport\models\ModelImportLogSearch;
 use admin\modules\rbac\components\RbacNav;
 use common\components\helpers\UserUrl;
-use common\models\{AccusationSearch, ExportListSearch, HistorySearch, NewsSearch, PartnerSearch, TextSearch};
+use common\models\{AccusationSearch,
+    AppealSearch,
+    ExportListSearch,
+    HistorySearch,
+    NewsSearch,
+    PartnerSearch,
+    TextSearch};
 use common\modules\log\Log;
 use common\modules\mail\models\{MailingLogSearch, MailingSearch, MailTemplateSearch};
 use common\modules\notification\widgets\NotificationBell;
@@ -64,6 +70,10 @@ if (!Yii::$app->user->isGuest) {
                 [
                     'label' => Yii::t('app', 'Partners'),
                     'url' => UserUrl::setFilters(PartnerSearch::class, ['/partner/index'])
+                ],
+                [
+                    'label' => Yii::t('app', 'Appeals'),
+                    'url' => UserUrl::setFilters(AppealSearch::class, ['/appeal/index'])
                 ],
             ]
         ],
