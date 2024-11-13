@@ -189,5 +189,12 @@ return [
 
     'Create Partner' => 'Добавить партнёра',
     'Update Partner: {name}' => 'Изменить партнёра: {name}',
-    'Logo' => 'Логотип'
+    'Logo' => 'Логотип',
+
+    'Appeals' => 'Обращение',
+
+    'Questionaries' => 'Анкеты',
+    'Age' => 'Возраст',
+    'City' => 'Город',
+    'Work' => 'Работа'
 ];
