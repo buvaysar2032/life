@@ -3,20 +3,26 @@
 namespace api\modules\v1\controllers;
 
 use api\behaviors\returnStatusBehavior\JsonSuccess;
+use api\behaviors\returnStatusBehavior\RequestFormData;
+use common\components\exceptions\ModelSaveException;
+use common\models\Appeal;
 use common\models\History;
 use common\models\News;
 use common\models\Partner;
 use OpenApi\Attributes\Get;
 use OpenApi\Attributes\Items;
+use OpenApi\Attributes\Post;
 use OpenApi\Attributes\Property;
+use Yii;
 use yii\data\Pagination;
+use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
 class DataController extends AppController
 {
     public function behaviors(): array
     {
-        return ArrayHelper::merge(parent::behaviors(), ['auth' => ['except' => ['news', 'history', 'partner']]]);
+        return ArrayHelper::merge(parent::behaviors(), ['auth' => ['except' => ['news', 'history', 'partner', 'appeal']]]);
     }
 
     /**
@@ -102,5 +108,42 @@ class DataController extends AppController
     {
         $partner = Partner::find()->all();
         return $this->returnSuccess($partner, 'partner');
+    }
+
+    /**
+     * @throws ModelSaveException
+     * @throws Exception
+     */
+    #[Post(
+        path: '/data/appeal',
+        operationId: 'appeal-create',
+        description: 'Форма "Обращение"',
+        summary: 'Форма "Обращение"',
+        tags: ['data']
+    )]
+    #[RequestFormData(properties: [
+        new Property(property: 'name', type: 'string'),
+        new Property(property: 'email', type: 'string'),
+    ])]
+    #[JsonSuccess(content: [
+        new Property(property: 'message', type: 'string', example: 'Форма отправлено успешно.'),
+    ])]
+    public function actionAppeal(): array
+    {
+        $request = Yii::$app->request->post();
+
+        if (empty($request['name']) || empty($request['email'])) {
+            return $this->returnError('Все поля обязательны для заполнения.');
+        }
+
+        $appeal = new Appeal();
+        $appeal->name = $request['name'];
+        $appeal->email = $request['email'];
+
+        if (!$appeal->save()) {
+            throw new ModelSaveException($appeal);
+        }
+
+        return $this->returnSuccess(['message' => 'Форма отправлено успешно.']);
     }
 }
