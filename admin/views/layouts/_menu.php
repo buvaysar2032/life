@@ -11,6 +11,7 @@ use common\models\{AccusationSearch,
     HistorySearch,
     NewsSearch,
     PartnerSearch,
+    QuestionarySearch,
     TextSearch};
 use common\modules\log\Log;
 use common\modules\mail\models\{MailingLogSearch, MailingSearch, MailTemplateSearch};
@@ -74,6 +75,10 @@ if (!Yii::$app->user->isGuest) {
                 [
                     'label' => Yii::t('app', 'Appeals'),
                     'url' => UserUrl::setFilters(AppealSearch::class, ['/appeal/index'])
+                ],
+                [
+                    'label' => Yii::t('app', 'Questionaries'),
+                    'url' => UserUrl::setFilters(QuestionarySearch::class, ['/questionary/index'])
                 ],
             ]
         ],
