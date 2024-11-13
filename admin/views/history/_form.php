@@ -9,15 +9,17 @@ use yii\helpers\Url;
 
 /**
  * @var $this     yii\web\View
- * @var $model    common\models\Accusation
+ * @var $model    common\models\History
  * @var $form     AppActiveForm
  * @var $isCreate bool
  */
 ?>
 
-<div class="accusation-form">
+<div class="history-form">
 
     <?php $form = AppActiveForm::begin() ?>
+
+    <?= $form->field($model, 'accusation')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
 

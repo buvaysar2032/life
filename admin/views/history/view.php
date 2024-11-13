@@ -4,22 +4,22 @@ use admin\components\widgets\detailView\Column;
 use admin\components\widgets\gridView\ColumnImage;
 use admin\modules\rbac\components\RbacHtml;
 use common\components\helpers\UserUrl;
-use common\models\AccusationSearch;
+use common\models\HistorySearch;
 use yii\widgets\DetailView;
 
 /**
  * @var $this  yii\web\View
- * @var $model common\models\Accusation
+ * @var $model common\models\History
  */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', 'Accusations'),
-    'url' => UserUrl::setFilters(AccusationSearch::class)
+    'label' => Yii::t('app', 'Histories'),
+    'url' => UserUrl::setFilters(HistorySearch::class)
 ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="accusation-view">
+<div class="history-view">
 
     <h1><?= RbacHtml::encode($this->title) ?></h1>
 
@@ -42,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             Column::widget(),
+            Column::widget(['attr' => 'accusation']),
             Column::widget(['attr' => 'full_name']),
             Column::widget(['attr' => 'add_information']),
             ColumnImage::widget(['attr' => 'image_desktop']),

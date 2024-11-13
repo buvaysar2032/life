@@ -176,4 +176,18 @@ return [
     'Create News' => 'Добавить новость',
     'Update News: {name}' => 'Изменить новость: {name}',
     'Link' => 'Ссылка',
+
+    'Histories' => 'Истории',
+    'Create History' => 'Добавить историю',
+    'Update History: {name}' => 'Изменить историю: {name}',
+    'Accusation' => 'Обвинение',
+    'Full Name' => 'ФИО',
+    'Add Information' => 'Доп. информация',
+    'Image Desktop' => 'Фотография для десктопа',
+    'Image Mobile' => 'Фотография для мобильного',
+    'History' => 'История',
+
+    'Create Partner' => 'Добавить партнёра',
+    'Update Partner: {name}' => 'Изменить партнёра: {name}',
+    'Logo' => 'Логотип'
 ];

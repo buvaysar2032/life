@@ -5,8 +5,8 @@ namespace admin\controllers;
 use admin\controllers\AdminController;
 use admin\modules\rbac\components\RbacHtml;
 use common\components\helpers\UserUrl;
-use common\models\Accusation;
-use common\models\AccusationSearch;
+use common\models\History;
+use common\models\HistorySearch;
 use kartik\grid\EditableColumnAction;
 use Throwable;
 use Yii;
@@ -18,11 +18,11 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
- * AccusationController implements the CRUD actions for Accusation model.
+ * HistoryController implements the CRUD actions for History model.
  *
  * @package admin\controllers
  */
-final class AccusationController extends AdminController
+final class HistoryController extends AdminController
 {
     /**
      * {@inheritdoc}
@@ -38,19 +38,19 @@ final class AccusationController extends AdminController
     }
 
     /**
-     * Lists all Accusation models.
+     * Lists all History models.
      *
      * @throws InvalidConfigException
      */
     public function actionIndex(): string
     {
-        $model = new Accusation();
+        $model = new History();
 
         if (RbacHtml::isAvailable(['create']) && $model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', "Элемент №$model->id создан успешно");
         }
 
-        $searchModel = new AccusationSearch();
+        $searchModel = new HistorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render(
@@ -60,7 +60,7 @@ final class AccusationController extends AdminController
     }
 
     /**
-     * Displays a single Accusation model.
+     * Displays a single History model.
      *
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -70,7 +70,7 @@ final class AccusationController extends AdminController
     }
 
     /**
-     * Creates a new Accusation model.
+     * Creates a new History model.
      *
      * If creation is successful, the browser will be redirected to the 'view' page.
      *
@@ -80,13 +80,13 @@ final class AccusationController extends AdminController
      */
     public function actionCreate(string $redirect = null): Response|string
     {
-        $model = new Accusation();
+        $model = new History();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', "Элемент №$model->id создан успешно");
             return match ($redirect) {
                 'create' => $this->redirect(['create']),
-                'index' => $this->redirect(UserUrl::setFilters(AccusationSearch::class)),
+                'index' => $this->redirect(UserUrl::setFilters(HistorySearch::class)),
                 default => $this->redirect(['view', 'id' => $model->id])
             };
         }
@@ -95,7 +95,7 @@ final class AccusationController extends AdminController
     }
 
     /**
-     * Updates an existing Accusation model.
+     * Updates an existing History model.
      *
      * If update is successful, the browser will be redirected to the 'view' page.
      *
@@ -115,7 +115,7 @@ final class AccusationController extends AdminController
     }
 
     /**
-     * Deletes an existing Accusation model.
+     * Deletes an existing History model.
      *
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
@@ -127,19 +127,19 @@ final class AccusationController extends AdminController
     {
         $this->findModel($id)->delete();
         Yii::$app->session->setFlash('success', "Элемент №$id удален успешно");
-        return $this->redirect(UserUrl::setFilters(AccusationSearch::class));
+        return $this->redirect(UserUrl::setFilters(HistorySearch::class));
     }
 
     /**
-     * Finds the Accusation model based on its primary key value.
+     * Finds the History model based on its primary key value.
      *
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
      * @throws NotFoundHttpException if the model cannot be found
      */
-    private function findModel(int $id): Accusation
+    private function findModel(int $id): History
     {
-        if (($model = Accusation::findOne($id)) !== null) {
+        if (($model = History::findOne($id)) !== null) {
             return $model;
         }
 
@@ -154,7 +154,7 @@ final class AccusationController extends AdminController
         return [
             'change' => [
                 'class' => EditableColumnAction::class,
-                'modelClass' => Accusation::class
+                'modelClass' => History::class
             ]
         ];
     }

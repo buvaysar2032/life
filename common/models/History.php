@@ -8,9 +8,10 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "{{%accusation}}".
+ * This is the model class for table "{{%history}}".
  *
  * @property int         $id
+ * @property string|null $accusation
  * @property string|null $full_name
  * @property string|null $add_information
  * @property string|null $image_desktop
@@ -20,7 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property int         $created_at      Дата создания
  * @property int         $updated_at      Дата изменения
  */
-class Accusation extends AppActiveRecord
+class History extends AppActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -39,7 +40,7 @@ class Accusation extends AppActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%accusation}}';
+        return '{{%history}}';
     }
 
     /**
@@ -51,7 +52,7 @@ class Accusation extends AppActiveRecord
             [['history'], 'string'],
             [['link'], 'required'],
             [['created_at', 'updated_at'], 'integer'],
-            [['full_name', 'add_information', 'image_desktop', 'image_mobile', 'link'], 'string', 'max' => 255]
+            [['accusation', 'full_name', 'add_information', 'image_desktop', 'image_mobile', 'link'], 'string', 'max' => 255]
         ];
     }
 
@@ -62,6 +63,7 @@ class Accusation extends AppActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'accusation' => Yii::t('app', 'Accusation'),
             'full_name' => Yii::t('app', 'Full Name'),
             'add_information' => Yii::t('app', 'Add Information'),
             'image_desktop' => Yii::t('app', 'Image Desktop'),

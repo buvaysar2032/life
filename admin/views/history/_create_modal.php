@@ -5,14 +5,14 @@ use yii\bootstrap5\Modal;
 
 /**
  * @var $this  yii\web\View
- * @var $model common\models\Accusation
+ * @var $model common\models\History
  */
 ?>
 
 <?php $modal = Modal::begin([
-    'title' => Yii::t('app', 'New Accusation'),
+    'title' => Yii::t('app', 'New History'),
     'toggleButton' => [
-        'label' => Yii::t('app', 'Create Accusation'),
+        'label' => Yii::t('app', 'Create History'),
         'class' => 'btn btn-success',
         'disabled' => !RbacHtml::isAvailable(['create'])
     ]

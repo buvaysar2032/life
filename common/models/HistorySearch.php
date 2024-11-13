@@ -8,9 +8,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * AccusationSearch represents the model behind the search form of `common\models\Accusation`.
+ * HistorySearch represents the model behind the search form of `common\models\History`.
  */
-final class AccusationSearch extends Accusation
+final class HistorySearch extends History
 {
     /**
      * {@inheritdoc}
@@ -19,7 +19,7 @@ final class AccusationSearch extends Accusation
     {
         return [
             [['id'], 'integer'],
-            [['full_name', 'add_information', 'image_desktop', 'image_mobile', 'history', 'link', 'created_at', 'updated_at'], 'safe']
+            [['accusation', 'full_name', 'add_information', 'image_desktop', 'image_mobile', 'history', 'link', 'created_at', 'updated_at'], 'safe']
         ];
     }
 
@@ -39,7 +39,7 @@ final class AccusationSearch extends Accusation
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = Accusation::find();
+        $query = History::find();
 
         // add conditions that should always apply here
 
@@ -58,7 +58,8 @@ final class AccusationSearch extends Accusation
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'full_name', $this->full_name])
+        $query->andFilterWhere(['like', 'accusation', $this->accusation])
+            ->andFilterWhere(['like', 'full_name', $this->full_name])
             ->andFilterWhere(['like', 'add_information', $this->add_information])
             ->andFilterWhere(['like', 'image_desktop', $this->image_desktop])
             ->andFilterWhere(['like', 'image_mobile', $this->image_mobile])
