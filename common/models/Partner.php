@@ -2,7 +2,10 @@
 
 namespace common\models;
 
+use common\components\helpers\UserUrl;
 use common\models\AppActiveRecord;
+use OpenApi\Attributes\Property;
+use OpenApi\Attributes\Schema;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
@@ -17,6 +20,13 @@ use yii\helpers\ArrayHelper;
  * @property int         $created_at Дата создания
  * @property int         $updated_at Дата изменения
  */
+
+#[Schema(properties: [
+    new Property(property: 'id', type: 'int'),
+    new Property(property: 'name', type: 'string'),
+    new Property(property: 'logo', type: 'string'),
+    new Property(property: 'link', type: 'string'),
+])]
 class Partner extends AppActiveRecord
 {
     /**
@@ -63,6 +73,16 @@ class Partner extends AppActiveRecord
             'link' => Yii::t('app', 'Link'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+        ];
+    }
+
+    public function fields(): array
+    {
+        return [
+            'id',
+            'name',
+            'logo' => fn() => UserUrl::toAbsolute($this->logo),
+            'link'
         ];
     }
 }

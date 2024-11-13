@@ -2,7 +2,10 @@
 
 namespace common\models;
 
+use common\components\helpers\UserUrl;
 use common\models\AppActiveRecord;
+use OpenApi\Attributes\Property;
+use OpenApi\Attributes\Schema;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
@@ -21,6 +24,17 @@ use yii\helpers\ArrayHelper;
  * @property int         $created_at      Дата создания
  * @property int         $updated_at      Дата изменения
  */
+
+#[Schema(properties: [
+    new Property(property: 'id', type: 'int'),
+    new Property(property: 'accusation', type: 'string'),
+    new Property(property: 'full_name', type: 'string'),
+    new Property(property: 'add_information', type: 'string'),
+    new Property(property: 'image_desktop', type: 'string'),
+    new Property(property: 'image_mobile', type: 'string'),
+    new Property(property: 'history', type: 'string'),
+    new Property(property: 'link', type: 'string'),
+])]
 class History extends AppActiveRecord
 {
     /**
@@ -72,6 +86,20 @@ class History extends AppActiveRecord
             'link' => Yii::t('app', 'Link'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+        ];
+    }
+
+    public function fields(): array
+    {
+        return [
+            'id',
+            'accusation',
+            'full_name',
+            'add_information',
+            'image_desktop' => fn() => UserUrl::toAbsolute($this->image_desktop),
+            'image_mobile' => fn() => UserUrl::toAbsolute($this->image_mobile),
+            'history',
+            'link',
         ];
     }
 }
