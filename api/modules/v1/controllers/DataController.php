@@ -2,6 +2,7 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\Accusation;
 use common\models\News;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
@@ -10,7 +11,7 @@ class DataController extends AppController
 {
     public function behaviors(): array
     {
-        return ArrayHelper::merge(parent::behaviors(), ['auth' => ['except' => ['news']]]);
+        return ArrayHelper::merge(parent::behaviors(), ['auth' => ['except' => ['news', 'accusation']]]);
     }
 
     public function actionNews(): array
@@ -37,4 +38,14 @@ class DataController extends AppController
             ],
         ], 'news');
     }
+
+    public function actionAccusation(): array
+    {
+        $accusations = Accusation::find()->select('history')->asArray()->all();
+
+        $histories = array_column($accusations, 'history');
+
+        return $this->returnSuccess($histories, 'histories');
+    }
+
 }
